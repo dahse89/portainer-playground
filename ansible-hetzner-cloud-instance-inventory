@@ -1,0 +1,7 @@
+hcloud ansible_port=22 ansible_user=root
+
+[hetzner-cloud-instance]
+hcloud
+
+[hetzner-cloud-instance:vars]
+ansible_python_interpreter=/usr/bin/python3

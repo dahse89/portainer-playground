@@ -1,0 +1,32 @@
+# https://docs.portainer.io/start/install/server/swarm/linux
+
+- hosts: hetzner-cloud-instance
+  tasks:
+    - name: install pip
+      apt:
+        state: present
+        name: python3-pip
+        update_cache: yes
+
+    - name: install jsondiff and docker
+      pip:
+        state: present
+        name:
+         - jsondiff
+         - docker
+
+    - name: Init a new swarm with default parameters
+      docker_swarm:
+        state: present
+
+    - name: Retrieve the stack YML manifest
+      get_url:
+        url: https://downloads.portainer.io/ce2-16/portainer-agent-stack.yml
+        dest: /opt/portainer-agent-stack.yml
+
+    - name:
+      docker_stack:
+        state: present
+        name: portainer-agent-stack
+        compose:
+          - /opt/portainer-agent-stack.yml
